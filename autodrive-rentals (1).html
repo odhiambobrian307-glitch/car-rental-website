@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoDrive Rentals — Australia's Trusted Car Rental</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --accent: #C8A96E;
+      --accent-light: #F5EDD8;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --card: #ffffff;
+      --surface: #f7f6f3;
+      --border: rgba(0,0,0,0.1);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--surface); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem; background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 500; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--text); color: var(--card);
+      font-family: 'DM Sans', sans-serif; font-size: 12px;
+      letter-spacing: 0.08em; padding: 10px 22px;
+      border: none; border-radius: var(--radius-md); cursor: pointer; transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: 0.8; }
+
+    /* HERO */
+    .hero {
+      padding: 5rem 3rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center; background: var(--card);
+    }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.4rem; font-weight: 400; line-height: 1.15; margin-bottom: 1.25rem; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 15px; color: var(--muted); line-height: 1.8; max-width: 420px; margin-bottom: 2rem; }
+    .hero-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-primary {
+      background: var(--text); color: var(--card);
+      font-family: 'DM Sans', sans-serif; font-size: 13px;
+      padding: 12px 28px; border: none; border-radius: var(--radius-md);
+      cursor: pointer; letter-spacing: 0.04em; transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: 0.8; }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 13px;
+      padding: 12px 28px; border: 1px solid var(--border);
+      border-radius: var(--radius-md); cursor: pointer; transition: background .2s;
+    }
+    .btn-secondary:hover { background: var(--surface); }
+    .hero-visual { display: flex; flex-direction: column; gap: 12px; }
+    .hero-car {
+      width: 100%; border-radius: var(--radius-lg);
+      background: var(--accent-light); aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center; font-size: 90px;
+    }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .stat {
+      background: var(--surface); border-radius: var(--radius-md);
+      padding: 14px; text-align: center; border: 1px solid var(--border);
+    }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 500; color: var(--text); }
+    .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; margin-top: 2px; }
+
+    /* SEARCH */
+    .search-section { padding: 0 3rem 3rem; background: var(--card); }
+    .search-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem 2rem;
+      display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end;
+    }
+    .field label { font-size: 11px; letter-spacing: 0.1em; color: var(--muted); display: block; margin-bottom: 6px; text-transform: uppercase; }
+    .field input, .field select {
+      width: 100%; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 10px 12px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--accent); }
+
+    /* LOCATIONS */
+    .locations { padding: 4rem 3rem; background: var(--surface); }
+    .section-eyebrow { font-size: 11px; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2.5rem; }
+    .locations-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .state-group { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.2rem; }
+    .state-name {
+      font-size: 11px; letter-spacing: 0.14em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 10px; font-weight: 500;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .location-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .location-list li { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .location-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; opacity: 0.6; }
+    .location-badge {
+      font-size: 10px; background: var(--accent-light); color: #8a6a30;
+      padding: 2px 6px; border-radius: 4px; margin-left: auto; white-space: nowrap;
+    }
+
+    /* FLEET */
+    .fleet { padding: 4rem 3rem; background: var(--card); }
+    .fleet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .car-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      cursor: pointer; transition: border-color .2s, transform .2s;
+    }
+    .car-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .car-img { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #1c1c1e; }
+    .car-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; filter: brightness(0.97) contrast(1.04); }
+    .car-card:hover .car-img img { transform: scale(1.05); }
+    .car-body { padding: 1rem 1.1rem; }
+    .car-category { font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 4px; }
+    .car-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 400; margin-bottom: 8px; }
+    .car-specs { display: flex; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+    .car-spec { font-size: 11px; color: var(--muted); }
+    .car-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
+    .car-price { font-size: 1rem; font-weight: 500; color: var(--text); }
+    .car-price span { font-size: 11px; color: var(--muted); font-weight: 400; }
+    .car-btn {
+      font-size: 11px; letter-spacing: 0.06em; color: var(--accent);
+      background: none; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: opacity .2s;
+    }
+    .car-btn:hover { opacity: 0.7; }
+
+    /* BOOKING */
+    .booking { padding: 4rem 3rem; background: var(--surface); }
+    .booking-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 960px; margin: 0 auto; }
+    .booking-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-field label { font-size: 11px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+    .form-field input, .form-field select, .form-field textarea {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 10px 12px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); outline: none;
+    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent); }
+    .booking-info { display: flex; flex-direction: column; gap: 1.5rem; padding-top: 0.5rem; }
+    .info-item { display: flex; gap: 14px; align-items: flex-start; }
+    .info-icon {
+      width: 38px; height: 38px; min-width: 38px;
+      background: var(--accent-light); border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 18px;
+    }
+    .info-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+    .info-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ABOUT */
+    .about { padding: 4rem 3rem; background: var(--card); }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .about-box { border-radius: var(--radius-lg); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 44px; }
+    .about-box:nth-child(1) { background: var(--accent-light); grid-column: 1/3; font-size: 66px; }
+    .about-box:nth-child(2) { background: var(--surface); border: 1px solid var(--border); }
+    .about-box:nth-child(3) { background: var(--surface); border: 1px solid var(--border); }
+    .about p { font-size: 14px; color: var(--muted); line-height: 1.85; margin-top: 1rem; margin-bottom: 1.5rem; }
+    .about-perks { display: flex; flex-direction: column; gap: 10px; margin-top: 1rem; }
+    .perk { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .perk-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+    /* CONTACT */
+    .contact { padding: 4rem 3rem; background: var(--surface); }
+    .contact-inner { max-width: 740px; margin: 0 auto; text-align: center; }
+    .contact-sub { font-size: 14px; color: var(--muted); margin: 0.75rem 0 2.5rem; line-height: 1.7; }
+    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 2.5rem; }
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem 1rem; text-align: center;
+    }
+    .contact-icon { font-size: 26px; margin-bottom: 10px; color: var(--accent); }
+    .contact-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+    .contact-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
+    .contact-form .full { grid-column: 1/3; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); outline: none; resize: none;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      background: var(--text); color: rgba(255,255,255,0.7);
+      padding: 2.5rem 3rem;
+      display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 6px; }
+    .footer-logo span { color: var(--accent); }
+    footer p { font-size: 12px; line-height: 1.7; }
+    .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: #fff; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem 2rem; }
+      .hero h1 { font-size: 2.4rem; }
+      .search-section { padding: 0 1.5rem 2rem; }
+      .search-card { grid-template-columns: 1fr; }
+      .locations { padding: 3rem 1.5rem; }
+      .locations-grid { grid-template-columns: 1fr 1fr; }
+      .fleet { padding: 3rem 1.5rem; }
+      .fleet-grid { grid-template-columns: 1fr 1fr; }
+      .booking { padding: 3rem 1.5rem; }
+      .booking-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .about { padding: 3rem 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; }
+      .contact { padding: 3rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; grid-template-columns: 1fr; }
+      .footer-right { align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .fleet-grid { grid-template-columns: 1fr; }
+      .locations-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form { grid-template-columns: 1fr; }
+      .contact-form .full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Auto<span>Drive</span> Rentals</a>
+    <ul class="nav-links">
+      <li><a href="#locations">Locations</a></li>
+      <li><a href="#fleet">Fleet</a></li>
+      <li><a href="#booking">Book</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">RESERVE NOW</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <p class="hero-eyebrow">Australia's Trusted Rental Service</p>
+      <h1>Your journey,<br>your <em>freedom</em></h1>
+      <p class="hero-sub">From city drives to epic coastal road trips — AutoDrive Rentals gives you quality vehicles at honest prices, right across Australia.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('fleet').scrollIntoView({behavior:'smooth'})">Browse Fleet</button>
+        <button class="btn-secondary" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book a Car</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-car" style="background:#1a1a1a;overflow:hidden;padding:0"><img src="https://imgs.search.brave.com/IiF0PoNw86nzmud1PT2ZMoWq5XvAtEC3XcZc4ZfOvZ8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy8yMDI2/LXRveW90YS1yYXY0/LWZhbWlseS1zdHVk/aW8tMDAxLTY4MmNl/NTViNTQ0ZDQuanBn/P2Nyb3A9MC44Nzl4/dzowLjc1MHhoOzAu/MDYyOXh3LDAuMTI5/eGg" alt="AutoDrive fleet" style="width:100%;height:100%;object-fit:cover;opacity:0.92" /></div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Vehicles</div></div>
+        <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Rating</div></div>
+        <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Support</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK SEARCH -->
+  <section class="search-section">
+    <div class="search-card">
+      <div class="field">
+        <label>Pick-up Location</label>
+        <select>
+          <optgroup label="New South Wales">
+            <option>Sydney CBD, NSW</option>
+            <option>Sydney Airport (SYD), NSW</option>
+            <option>Parramatta, NSW</option>
+            <option>Newcastle, NSW</option>
+            <option>Wollongong, NSW</option>
+            <option>Coffs Harbour, NSW</option>
+            <option>Tamworth, NSW</option>
+            <option>Orange, NSW</option>
+          </optgroup>
+          <optgroup label="Victoria">
+            <option>Melbourne CBD, VIC</option>
+            <option>Melbourne Airport (MEL), VIC</option>
+            <option>Geelong, VIC</option>
+            <option>Ballarat, VIC</option>
+            <option>Bendigo, VIC</option>
+            <option>Shepparton, VIC</option>
+            <option>Wodonga, VIC</option>
+          </optgroup>
+          <optgroup label="Queensland">
+            <option>Brisbane CBD, QLD</option>
+            <option>Brisbane Airport (BNE), QLD</option>
+            <option>Gold Coast, QLD</option>
+            <option>Sunshine Coast, QLD</option>
+            <option>Cairns, QLD</option>
+            <option>Townsville, QLD</option>
+            <option>Mackay, QLD</option>
+            <option>Rockhampton, QLD</option>
+            <option>Toowoomba, QLD</option>
+          </optgroup>
+          <optgroup label="Western Australia">
+            <option>Perth CBD, WA</option>
+            <option>Perth Airport (PER), WA</option>
+            <option>Fremantle, WA</option>
+            <option>Broome, WA</option>
+            <option>Geraldton, WA</option>
+            <option>Bunbury, WA</option>
+            <option>Kalgoorlie, WA</option>
+          </optgroup>
+          <optgroup label="South Australia">
+            <option>Adelaide CBD, SA</option>
+            <option>Adelaide Airport (ADL), SA</option>
+            <option>Glenelg, SA</option>
+            <option>Mount Gambier, SA</option>
+            <option>Whyalla, SA</option>
+            <option>Port Augusta, SA</option>
+          </optgroup>
+          <optgroup label="Tasmania">
+            <option>Hobart, TAS</option>
+            <option>Hobart Airport (HBA), TAS</option>
+            <option>Launceston, TAS</option>
+            <option>Launceston Airport (LST), TAS</option>
+            <option>Devonport, TAS</option>
+            <option>Burnie, TAS</option>
+          </optgroup>
+          <optgroup label="ACT">
+            <option>Canberra CBD, ACT</option>
+            <option>Canberra Airport (CBR), ACT</option>
+          </optgroup>
+          <optgroup label="Northern Territory">
+            <option>Darwin, NT</option>
+            <option>Darwin Airport (DRW), NT</option>
+            <option>Alice Springs, NT</option>
+            <option>Uluru / Yulara, NT</option>
+            <option>Katherine, NT</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Pick-up Date</label>
+        <input type="date" />
+      </div>
+      <div class="field">
+        <label>Return Date</label>
+        <input type="date" />
+      </div>
+      <button class="btn-primary" style="white-space:nowrap;padding:10px 24px">Search Cars</button>
+    </div>
+  </section>
+
+  <!-- LOCATIONS -->
+  <section class="locations" id="locations">
+    <div class="section-header">
+      <div>
+        <p class="section-eyebrow">Where We Operate</p>
+        <h2 class="section-title">Pick-up locations</h2>
+      </div>
+    </div>
+    <div class="locations-grid">
+      <div class="state-group">
+        <p class="state-name">New South Wales</p>
+        <ul class="location-list">
+          <li>Sydney CBD <span class="location-badge">24/7</span></li>
+          <li>Sydney Airport (SYD) <span class="location-badge">Airport</span></li>
+          <li>Parramatta</li>
+          <li>Newcastle</li>
+          <li>Wollongong</li>
+          <li>Coffs Harbour</li>
+          <li>Tamworth</li>
+          <li>Orange</li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">Victoria</p>
+        <ul class="location-list">
+          <li>Melbourne CBD <span class="location-badge">24/7</span></li>
+          <li>Melbourne Airport (MEL) <span class="location-badge">Airport</span></li>
+          <li>Geelong</li>
+          <li>Ballarat</li>
+          <li>Bendigo</li>
+          <li>Shepparton</li>
+          <li>Wodonga</li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">Queensland</p>
+        <ul class="location-list">
+          <li>Brisbane CBD <span class="location-badge">24/7</span></li>
+          <li>Brisbane Airport (BNE) <span class="location-badge">Airport</span></li>
+          <li>Gold Coast</li>
+          <li>Sunshine Coast</li>
+          <li>Cairns <span class="location-badge">Airport</span></li>
+          <li>Townsville</li>
+          <li>Mackay</li>
+          <li>Rockhampton</li>
+          <li>Toowoomba</li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">Western Australia</p>
+        <ul class="location-list">
+          <li>Perth CBD <span class="location-badge">24/7</span></li>
+          <li>Perth Airport (PER) <span class="location-badge">Airport</span></li>
+          <li>Fremantle</li>
+          <li>Broome</li>
+          <li>Geraldton</li>
+          <li>Bunbury</li>
+          <li>Kalgoorlie</li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">South Australia</p>
+        <ul class="location-list">
+          <li>Adelaide CBD <span class="location-badge">24/7</span></li>
+          <li>Adelaide Airport (ADL) <span class="location-badge">Airport</span></li>
+          <li>Glenelg</li>
+          <li>Mount Gambier</li>
+          <li>Whyalla</li>
+          <li>Port Augusta</li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">Tasmania</p>
+        <ul class="location-list">
+          <li>Hobart <span class="location-badge">24/7</span></li>
+          <li>Hobart Airport (HBA) <span class="location-badge">Airport</span></li>
+          <li>Launceston</li>
+          <li>Launceston Airport (LST) <span class="location-badge">Airport</span></li>
+          <li>Devonport</li>
+          <li>Burnie</li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">ACT</p>
+        <ul class="location-list">
+          <li>Canberra CBD <span class="location-badge">24/7</span></li>
+          <li>Canberra Airport (CBR) <span class="location-badge">Airport</span></li>
+        </ul>
+      </div>
+      <div class="state-group">
+        <p class="state-name">Northern Territory</p>
+        <ul class="location-list">
+          <li>Darwin CBD <span class="location-badge">24/7</span></li>
+          <li>Darwin Airport (DRW) <span class="location-badge">Airport</span></li>
+          <li>Alice Springs</li>
+          <li>Uluru / Yulara</li>
+          <li>Katherine</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLEET -->
+  <section class="fleet" id="fleet">
+    <div class="section-header">
+      <div>
+        <p class="section-eyebrow">Our Fleet</p>
+        <h2 class="section-title">Choose your ride</h2>
+      </div>
+      <button class="btn-secondary" style="font-size:12px">View all →</button>
+    </div>
+    <div class="fleet-grid">
+      <div class="car-card">
+        <div class="car-img"><img src="https://imgs.search.brave.com/E-WM4dtu_eNku73ALm6sXZCa32SmZzc03xq0ml-0Hok/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbGF0/Zm9ybS5jc3RhdGlj/LWltYWdlcy5jb20v/bGFyZ2UvaW4vdjIv/NzQ1NDE3ZmQtNjli/Yy01MjRkLTkzZGYt/NGM1N2NiZDY3MDg2/LzM5NWY2OGY1LWIz/NWMtNDRjYi1iNTdm/LWU5ZWZlNWY0OTc4/MC80UVl5dU5iSWw2/V18xQTdpN1RWR04x/Uk5oTTQuanBn" alt="Toyota Yaris" loading="lazy" /></div>
+        <div class="car-body">
+          <p class="car-category">Economy</p>
+          <p class="car-name">Toyota Yaris</p>
+          <div class="car-specs">
+            <span class="car-spec">5 seats</span>
+            <span class="car-spec">Auto</span>
+            <span class="car-spec">Petrol</span>
+          </div>
+          <div class="car-footer">
+            <p class="car-price">$65 <span>/ day AUD</span></p>
+            <button class="car-btn">Book now →</button>
+          </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <div class="car-img"><img src="https://imgs.search.brave.com/a75dLtjkJSfbuvqPSOjkZvAhoTFYbDzIjvD0QnTIHJs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWdj/ZG4ubG90bGlueC5j/b20vdmRuLzQwMDEv/dG95b3RhX2NhbXJ5/XzIwMThfNFQxQjEx/SEsySlU2NTA3Mjlf/NDAwMV8yNzAwMjEw/NDk5LmpwZz92ZXI9/MjAyNjAzMDk" alt="Toyota Camry Hybrid" loading="lazy" /></div>
+        <div class="car-body">
+          <p class="car-category">Sedan</p>
+          <p class="car-name">Toyota Camry</p>
+          <div class="car-specs">
+            <span class="car-spec">5 seats</span>
+            <span class="car-spec">Auto</span>
+            <span class="car-spec">Hybrid</span>
+          </div>
+          <div class="car-footer">
+            <p class="car-price">$95 <span>/ day AUD</span></p>
+            <button class="car-btn">Book now →</button>
+          </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <div class="car-img"><img src="https://imgs.search.brave.com/c52m5Zxk5VPtqCgBeWuKdTKIg4sNSttCHJGY6MK0o50/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2Ftdi1wcm9k/LWNhZC1hc3NldHMu/czMuYW1hem9uYXdz/LmNvbS92ZGF0L3N1/Ym1vZGVscy90b3lv/dGFfcmF2NF90b3lv/dGEtcmF2NF8yMDE4/LTE2NDMzMDEzNjk5/NzUuanBnP2ZpbGw9/MTg6MTEmcmVzaXpl/PTY0MDoq" alt="Toyota RAV4 Hybrid" loading="lazy" /></div>
+        <div class="car-body">
+          <p class="car-category">SUV</p>
+          <p class="car-name">Toyota RAV4</p>
+          <div class="car-specs">
+            <span class="car-spec">5 seats</span>
+            <span class="car-spec">Auto</span>
+            <span class="car-spec">Hybrid</span>
+          </div>
+          <div class="car-footer">
+            <p class="car-price">$120 <span>/ day AUD</span></p>
+            <button class="car-btn">Book now →</button>
+          </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <div class="car-img"><img src="https://imgs.search.brave.com/usUznkdEVEgomjcqZb_LWtBS6eEFUHEJth7yrGiXhKY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuaGdtc2l0ZXMu/bmV0L2xyZy8yMDIw/LXRveW90YS1sYW5k/LWNydWlzZXJfMTAw/NzIwMjcyX2wuanBn" alt="Ford Ranger" loading="lazy" /></div>
+        <div class="car-body">
+          <p class="car-category">Ute</p>
+          <p class="car-name">Toyota Land Cruiser</p>
+          <div class="car-specs">
+            <span class="car-spec">7 seats</span>
+            <span class="car-spec">Auto</span>
+            <span class="car-spec">Diesel</span>
+          </div>
+          <div class="car-footer">
+            <p class="car-price">$130 <span>/ day AUD</span></p>
+            <button class="car-btn">Book now →</button>
+          </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <div class="car-img"><img src="https://imgs.search.brave.com/32HY0II13gWULM1KEvUQ1Q37IrQi0qUu4CYp0txs1yA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbGF0/Zm9ybS5jc3RhdGlj/LWltYWdlcy5jb20v/bGFyZ2UvaW4vdjIv/NzJjNjIyYmMtOTJl/Ni00MzMzLThkNmIt/MTNiMThlNGUwMzI1/LzgyYjRmNmY3LTRk/YWItNDViNS04ODdm/LTU5MTRjZTczZTg1/ZS9OVnp0MElkZjU1/cHJ3MmhqM21IaVVK/aTNTQmcuanBn" alt="Kia Carnival People Mover" loading="lazy" /></div>
+        <div class="car-body">
+          <p class="car-category">People Mover</p>
+          <p class="car-name">Kia Carnival</p>
+          <div class="car-specs">
+            <span class="car-spec">5 seats</span>
+            <span class="car-spec">Auto</span>
+            <span class="car-spec">Petrol</span>
+          </div>
+          <div class="car-footer">
+            <p class="car-price">$150 <span>/ day AUD</span></p>
+            <button class="car-btn">Book now →</button>
+          </div>
+        </div>
+      </div>
+      <div class="car-card">
+        <div class="car-img"><img src="https://imgs.search.brave.com/Tm0jKVsovhBq42HfHSHrgDXRC4uR0JYa2fa_JFgwgiQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuY2xhc3NpYy5j/b20vdmVoaWNsZXMv/ZWY5MTY0MTc0ZTQ1/MTU3ODBhNmUwMTU1/ZmUxOGJmY2NmNzgw/NjZlNi5qcGVnP2Fy/PTE2OjkmZml0PWNy/b3AmaD0zMzgmdz02/MDA" alt="Mercedes-Benz C-Class" loading="lazy" /></div>
+        <div class="car-body">
+          <p class="car-category">Luxury</p>
+          <p class="car-name">Mercedes E 250</p>
+          <div class="car-specs">
+            <span class="car-spec">5 seats</span>
+            <span class="car-spec">Auto</span>
+            <span class="car-spec">Petrol</span>
+          </div>
+          <div class="car-footer">
+            <p class="car-price">$220 <span>/ day AUD</span></p>
+            <button class="car-btn">Book now →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="booking" id="booking">
+    <div style="text-align:center;margin-bottom:2.5rem">
+      <p class="section-eyebrow">Reservations</p>
+      <h2 class="section-title">Book your vehicle</h2>
+    </div>
+    <div class="booking-inner">
+      <div class="booking-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Full Name</label>
+            <input type="text" placeholder="James Williams" />
+          </div>
+          <div class="form-field">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+61 4XX XXX XXX" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email Address</label>
+          <input type="email" placeholder="james@example.com.au" />
+        </div>
+        <div class="form-field">
+          <label>Vehicle</label>
+          <select>
+            <option>Economy — Toyota Yaris ($65/day)</option>
+            <option>Sedan — Toyota Camry ($95/day)</option>
+            <option>SUV — Toyota RAV4 ($120/day)</option>
+            <option>Ute — Ford Ranger ($130/day)</option>
+            <option>People Mover — Kia Carnival ($150/day)</option>
+            <option>Luxury — Mercedes C-Class ($220/day)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Pick-up Date</label>
+            <input type="date" />
+          </div>
+          <div class="form-field">
+            <label>Return Date</label>
+            <input type="date" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Pick-up Location</label>
+          <select>
+            <optgroup label="New South Wales">
+              <option>Sydney CBD</option>
+              <option>Sydney Airport (SYD)</option>
+              <option>Parramatta</option>
+              <option>Newcastle</option>
+              <option>Wollongong</option>
+              <option>Coffs Harbour</option>
+              <option>Tamworth</option>
+              <option>Orange</option>
+            </optgroup>
+            <optgroup label="Victoria">
+              <option>Melbourne CBD</option>
+              <option>Melbourne Airport (MEL)</option>
+              <option>Geelong</option>
+              <option>Ballarat</option>
+              <option>Bendigo</option>
+              <option>Shepparton</option>
+              <option>Wodonga</option>
+            </optgroup>
+            <optgroup label="Queensland">
+              <option>Brisbane CBD</option>
+              <option>Brisbane Airport (BNE)</option>
+              <option>Gold Coast</option>
+              <option>Sunshine Coast</option>
+              <option>Cairns</option>
+              <option>Townsville</option>
+              <option>Mackay</option>
+              <option>Rockhampton</option>
+              <option>Toowoomba</option>
+            </optgroup>
+            <optgroup label="Western Australia">
+              <option>Perth CBD</option>
+              <option>Perth Airport (PER)</option>
+              <option>Fremantle</option>
+              <option>Broome</option>
+              <option>Geraldton</option>
+              <option>Bunbury</option>
+              <option>Kalgoorlie</option>
+            </optgroup>
+            <optgroup label="South Australia">
+              <option>Adelaide CBD</option>
+              <option>Adelaide Airport (ADL)</option>
+              <option>Glenelg</option>
+              <option>Mount Gambier</option>
+              <option>Whyalla</option>
+              <option>Port Augusta</option>
+            </optgroup>
+            <optgroup label="Tasmania">
+              <option>Hobart</option>
+              <option>Hobart Airport (HBA)</option>
+              <option>Launceston</option>
+              <option>Launceston Airport (LST)</option>
+              <option>Devonport</option>
+              <option>Burnie</option>
+            </optgroup>
+            <optgroup label="ACT">
+              <option>Canberra CBD</option>
+              <option>Canberra Airport (CBR)</option>
+            </optgroup>
+            <optgroup label="Northern Territory">
+              <option>Darwin CBD</option>
+              <option>Darwin Airport (DRW)</option>
+              <option>Alice Springs</option>
+              <option>Uluru / Yulara</option>
+              <option>Katherine</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Licence State / Country</label>
+          <select>
+            <option>NSW</option>
+            <option>VIC</option>
+            <option>QLD</option>
+            <option>WA</option>
+            <option>SA</option>
+            <option>TAS</option>
+            <option>ACT</option>
+            <option>NT</option>
+            <option>International licence</option>
+          </select>
+        </div>
+        <button class="btn-primary" style="margin-top:0.5rem" onclick="alert('Thank you! We will confirm your reservation within 2 hours.')">Confirm Reservation →</button>
+      </div>
+      <div class="booking-info">
+        <div class="info-item">
+          <div class="info-icon">🛡️</div>
+          <div>
+            <p class="info-title">Fully insured vehicles</p>
+            <p class="info-text">All vehicles include comprehensive insurance. Optional excess reduction available at checkout.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🕐</div>
+          <div>
+            <p class="info-title">Free cancellation</p>
+            <p class="info-text">Cancel or modify your booking up to 48 hours before pick-up at no charge.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <p class="info-title">Airport & city delivery</p>
+            <p class="info-text">We deliver to all major Australian airports and CBD locations. Complimentary drop-off available.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🎧</div>
+          <div>
+            <p class="info-title">24/7 roadside assistance</p>
+            <p class="info-text">Breakdown support right across Australia. One call and we'll sort it — day or night.</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🚗</div>
+          <div>
+            <p class="info-title">One-way rentals available</p>
+            <p class="info-text">Pick up in Sydney, drop off in Melbourne. One-way hires available between all major locations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="about-visual">
+        <div class="about-box" style="font-size:66px">🛣️</div>
+        <div class="about-box">🦘</div>
+        <div class="about-box">🔑</div>
+      </div>
+      <div>
+        <p class="section-eyebrow">Our Story</p>
+        <h2 class="section-title">Built for Australia's roads</h2>
+        <p>AutoDrive Rentals was built for Australians and visitors who want more than just a car — they want a reliable, no-fuss experience from pick-up to drop-off, whether that's a weekend in the Hunter Valley, a road trip up the Great Ocean Road, or a red centre adventure around Uluru.</p>
+        <p>We maintain a modern, well-serviced fleet and believe in transparent pricing with zero surprises on the bill.</p>
+        <div class="about-perks">
+          <div class="perk"><div class="perk-dot"></div><span>No hidden fees — price shown is price paid</span></div>
+          <div class="perk"><div class="perk-dot"></div><span>Australian & international licences accepted</span></div>
+          <div class="perk"><div class="perk-dot"></div><span>GST included in all displayed prices</span></div>
+          <div class="perk"><div class="perk-dot"></div><span>One-way hires between major cities available</span></div>
+          <div class="perk"><div class="perk-dot"></div><span>Corporate & long-term hire packages available</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <p class="section-eyebrow">Get in Touch</p>
+      <h2 class="section-title">We'd love to hear from you</h2>
+      <p class="contact-sub">Questions about a booking, fleet enquiries, or corporate accounts — our friendly team is here to help.</p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <h4>Call us</h4>
+          <p>1300 000 000<br>Mon–Sun, 7am–9pm AEST</p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <h4>Email us</h4>
+          <p>hello@autodrive.com.au<br>Reply within 2 hours</p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
+          <h4>Head office</h4>
+          <p>Sydney, NSW 2000<br>Serving all of Australia</p>
+        </div>
+      </div>
+      <div class="contact-form">
+        <input type="text" placeholder="Your name" />
+        <input type="email" placeholder="Your email" />
+        <textarea class="full" rows="4" placeholder="Your message..."></textarea>
+        <button class="btn-primary full" onclick="alert('Message sent! We\'ll be in touch shortly.')">Send Message →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <p class="footer-logo">Auto<span>Drive</span> Rentals</p>
+      <p>© 2025 AutoDrive Rentals Pty Ltd. Sydney, Australia.</p>
+      <p style="margin-top:4px">ABN 00 000 000 000 &nbsp;·&nbsp; All prices in AUD incl. GST</p>
+    </div>
+    <div class="footer-right">
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Fleet</a>
+        <a href="#">Locations</a>
+        <a href="#">Contact</a>
+      </div>
+      <p style="font-size:11px;color:rgba(255,255,255,0.4)">Serving NSW · VIC · QLD · WA · SA · TAS · ACT · NT</p>
+    </div>
+  </footer>
+
+</body>
+</html>
